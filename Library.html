@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2c5282;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #2c5282;
+            font-size: 24px;
+        }
+        
+        .controls {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        
+        .filter select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .add-btn {
+            background: #2c5282;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .add-btn:hover {
+            background: #2a4d7a;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            border-left: 4px solid #ccc;
+        }
+        
+        .stat.total { border-left-color: #2c5282; }
+        .stat.available { border-left-color: #38a169; }
+        .stat.checked-out { border-left-color: #d69e2e; }
+        .stat.overdue { border-left-color: #e53e3e; }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .inventory {
+            background: white;
+            padding: 20px;
+        }
+        
+        .inventory h2 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.checked-out {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.overdue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn {
+            padding: 4px 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .btn.edit {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn.delete {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+        
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pagination button {
+            padding: 8px 12px;
+            margin: 0 2px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .pagination button:hover,
+        .pagination button.active {
+            background: #2c5282;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Library Inventory System</h1>
+    </div>
+
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" placeholder="Search books..." id="search">
+        </div>
+        <div class="filter">
+            <select id="filter">
+                <option value="">All Books</option>
+                <option value="available">Available</option>
+                <option value="checked-out">Checked Out</option>
+                <option value="overdue">Overdue</option>
+            </select>
+        </div>
+        <button class="add-btn" onclick="addBook()">Add Book</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat total">
+            <div class="stat-number">1,247</div>
+            <div class="stat-label">Total Books</div>
+        </div>
+        <div class="stat available">
+            <div class="stat-number">892</div>
+            <div class="stat-label">Available</div>
+        </div>
+        <div class="stat checked-out">
+            <div class="stat-number">325</div>
+            <div class="stat-label">Checked Out</div>
+        </div>
+        <div class="stat overdue">
+            <div class="stat-number">30</div>
+            <div class="stat-label">Overdue</div>
+        </div>
+    </div>
+
+    <div class="inventory">
+        <h2>Book Inventory</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookTable">
+                <tr>
+                    <td>BK001</td>
+                    <td>Harry Potter and the Philosopher's Stone</td>
+                    <td>J.K. Rowling</td>
+                    <td>978-0747532699</td>
+                    <td><span class="status available">Available</span></td>
+                    <td>A-12-3</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" onclick="editBook('BK001')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('BK001')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK002</td>
+                    <td>1984</td>
+                    <td>George Orwell</td>
+                    <td>978-0452284234</td>
+                    <td><span class="status checked-out">Checked Out</span></td>
+                    <td>B-05-7</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" onclick="editBook('BK002')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('BK002')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK003</td>
+                    <td>To Kill a Mockingbird</td>
+                    <td>Harper Lee</td>
+                    <td>978-0061120084</td>
+                    <td><span class="status available">Available</span></td>
+                    <td>C-08-2</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" onclick="editBook('BK003')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('BK003')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK004</td>
+                    <td>Pride and Prejudice</td>
+                    <td>Jane Austen</td>
+                    <td>978-0141439518</td>
+                    <td><span class="status overdue">Overdue</span></td>
+                    <td>A-15-1</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" onclick="editBook('BK004')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('BK004')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK005</td>
+                    <td>The Great Gatsby</td>
+                    <td>F. Scott Fitzgerald</td>
+                    <td>978-0743273565</td>
+                    <td><span class="status available">Available</span></td>
+                    <td>D-03-9</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn edit" onclick="editBook('BK005')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('BK005')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button>Previous</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>Next</button>
+        </div>
+    </div>
+
+    <script>
+        function search() {
+            var input = document.getElementById('search');
+            var filter = input.value.toLowerCase();
+            var table = document.getElementById('bookTable');
+            var rows = table.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('td');
+                var found = false;
+                for (var j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+
+        function filterStatus() {
+            var select = document.getElementById('filter');
+            var filter = select.value;
+            var table = document.getElementById('bookTable');
+            var rows = table.getElementsByTagName('tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var statusCell = rows[i].getElementsByClassName('status')[0];
+                if (!filter || statusCell.classList.contains(filter)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function addBook() {
+            alert('Add book form would open here');
+        }
+
+        function editBook(id) {
+            alert('Edit book ' + id);
+        }
+
+        function deleteBook(id) {
+            if (confirm('Delete book ' + id + '?')) {
+                // Find and remove the row
+                var rows = document.getElementById('bookTable').getElementsByTagName('tr');
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].getElementsByTagName('td')[0].textContent === id) {
+                        rows[i].remove();
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Add event listeners
+        document.getElementById('search').addEventListener('input', search);
+        document.getElementById('filter').addEventListener('change', filterStatus);
+    </script>
+</body>
+</html>

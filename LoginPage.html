@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+                <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Anthony Chang">
+        <title>LoginPage</title>
+
+            <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #555c84;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .LoginPage {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+            color: #555;
+        }
+
+        input[type="text"],
+          input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: .5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus,
+         input[type="password"]:focus{
+            border:2px solid #007bff;
+            outline: none;
+        }
+        
+
+        button {
+            width: 100%;
+            padding: .5rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2890ff;
+        }
+
+        .msg{
+            color: #535353;
+        }
+    </style>
+    </head>
+    <body>
+
+        <div class="LoginPage">
+        <form action="login.php" method="post">
+            <h2> Library Inventory Login </h2>
+            <div class="msg"> Login with your Username and Password </div>
+            <label></label><input type="text" name="username" placeholder="Username"><br>
+            <label></label><input type="password" name="password" placeholder="Password"><br>
+            <button type="submit">Login</button>
+        </form>
+        </div>
+    </body>
+</html>
