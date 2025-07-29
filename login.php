@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result && $result->num_rows > 0) {
         echo "Login successful! Redirecting...";
-        header("Refresh:2; url=http://localhost/LibraryManagementSystem/Library.html");
+        header("Refresh:2; url=http://localhost/Library_Management_System/Library.html");
     } else {
         echo "Invalid username or password.";
     }
