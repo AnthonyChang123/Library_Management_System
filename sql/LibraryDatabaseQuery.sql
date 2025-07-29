@@ -35,7 +35,7 @@ Create table Rental (
     Return_Date date
 );
 
-Insert Into LibrarianAccount (username, password) Values ('Anthony', '12345');
+Insert Into LibrarianAccount (username, password) Values ('Anthony', '12345'), ('Joey','12345'),('Zakariya','12345'),('Salmaan','12345');
     
 INSERT INTO Books (id, title, author, isbn, status, location) VALUES 
 ('BK001', 'Harry Potter and the Philosophers Stone', 'J.K. Rowling', '978-0747532699', 'available', 'A-12-3'),
