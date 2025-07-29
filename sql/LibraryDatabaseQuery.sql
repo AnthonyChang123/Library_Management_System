@@ -7,6 +7,12 @@ Create table LibrarianAccount (
 	password varchar(30)
     );
     
+Create table Inventory (
+	Total_Books int,
+    Available_Books int,
+    Checked_Out_Books int
+);
+    
 CREATE TABLE Books (
     id varchar(10) PRIMARY KEY,
     title varchar(255) NOT NULL,
@@ -14,6 +20,19 @@ CREATE TABLE Books (
     isbn varchar(20) NOT NULL,
     status enum('available', 'checked-out', 'overdue') DEFAULT 'available',
     location varchar(20) NOT NULL
+);
+
+Create table UserAccount (
+	User_ID int auto_increment Primary Key UNIQUE NOT NULL,
+    Renter_Username varchar(30),
+    Renter_Password varchar(30)
+);
+
+Create table Rental (
+	Rental_ID int,
+    Checked_Out_Date date,
+    Due_Date date,
+    Return_Date date
 );
 
 Insert Into LibrarianAccount (username, password) Values ('Anthony', '12345');
