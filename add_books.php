@@ -1,7 +1,5 @@
 <?php
 
-include 'header.php';
-
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Database connection
@@ -42,6 +40,7 @@ if ($connection->connect_error) {
 ?>
 
 <!DOCTYPE html>
+<?php include 'header.php';?>
 <html>
 <head>
     <title>Add Book</title>
@@ -51,7 +50,7 @@ if ($connection->connect_error) {
             margin: 40px;
             background-color: #f5f5f5;
         }
-        form {
+        .addbookform {
             background: white;
             padding: 20px;
             border-left: 5px solid #2c5282;
@@ -73,13 +72,18 @@ if ($connection->connect_error) {
         button:hover {
             background: #24476b;
         }
+        #addbooktitle {
+            margin: 0;
+            color: #2c5282;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
 
-<h2>Add New Book</h2>
+<form class='addbookform' method="POST">
+<h2 id='addbooktitle'>Add New Book</h2>
 
-<form method="POST">
     <label>Book ID:</label>
     <input type="text" name="id" required>
 
