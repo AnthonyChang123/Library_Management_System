@@ -25,7 +25,10 @@ CREATE TABLE Books (
 Create table UserAccount (
 	User_ID int auto_increment Primary Key UNIQUE NOT NULL,
     Renter_Username varchar(30),
-    Renter_Password varchar(30)
+    Renter_FirstName varchar(30),
+    Renter_LastName varchar (30),
+    Renter_Address varchar (50),
+    Renter_Status boolean
 );
 
 Create table Rental (
@@ -43,3 +46,5 @@ INSERT INTO Books (id, title, author, isbn, status, location) VALUES
 ('BK003', 'To Kill a Mockingbird', 'Harper Lee', '978-0061120084', 'available', 'C-08-2'),
 ('BK004', 'Pride and Prejudice', 'Jane Austen', '978-0141439518', 'overdue', 'A-15-1'),
 ('BK005', 'The Great Gatsby', 'F. Scott Fitzgerald', '978-0743273565', 'available', 'D-03-9');
+
+Insert into UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Status) Values ('John123', 'John', 'Smith','6593 Zillow W Ave, MN 5567', true);
