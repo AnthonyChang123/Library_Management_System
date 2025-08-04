@@ -18,32 +18,33 @@
         <div class="filter">
             <select id="filter">
                 <option value="">All Users</option>
-                <option value="available">Available</option>
-                <option value="checked-out">Checked Out</option>
-                <option value="overdue">Overdue</option>
+                <option value="available">Eligable</option>
+                <option value="checked-out">Non-Eligable</option>
             </select>
         </div>
-        <button class="add-btn" onclick="window.location.href='add_books.php'">Register User</button>
+        <button class="add-btn" onclick="window.location.href='register_user.php'">Register User</button>
 
     </div>
 
     <div class="stats">
         <div class="stat total">
             <div class="stat-number">0</div>
-            <div class="stat-label">Total Books</div>
+            <div class="stat-label">Total Users</div>
         </div>
         <div class="stat available">
             <div class="stat-number">0</div>
-            <div class="stat-label">Available</div>
+            <div class="stat-label">Eligable</div>
         </div>
         <div class="stat checked-out">
             <div class="stat-number">0</div>
-            <div class="stat-label">Checked Out</div>
+            <div class="stat-label">Non-Eligable</div>
         </div>
+        <!--
         <div class="stat overdue">
             <div class="stat-number">0</div>
             <div class="stat-label">Overdue</div>
         </div>
+        -->
     </div>
 
     <div class="inventory">
