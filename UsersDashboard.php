@@ -134,7 +134,7 @@
 
         function search() {
             var input = document.getElementById('search');
-            var filter = input.value.toLowerCase();
+            var filter = input.value.trim().toLowerCase();
             var table = document.getElementById('userTable');
             var rows = table.getElementsByTagName('tr');
 
