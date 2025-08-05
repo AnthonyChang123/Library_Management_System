@@ -109,7 +109,7 @@
                     <td>${book.location}</td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="editBook('${book.id}')">Edit</button>
+                            <button class="btn edit" onclick="editBook('${book.id}')">View</button>
                             <button class="btn delete" onclick="deleteBook('${book.id}')">Delete</button>
                         </div>
                     </td>

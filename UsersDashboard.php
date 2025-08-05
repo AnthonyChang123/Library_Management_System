@@ -107,7 +107,7 @@
                     <td><span class="status ${user.status}">${capitalizeStatus(user.status)}</span></td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="window.location.href='User_Info.php?id=${user.id}'">Edit</button>
+                            <button class="btn edit" onclick="window.location.href='User_Info.php?id=${user.id}'">View</button>
                             <button class="btn delete" onclick="deleteUser('${user.id}')">Delete</button>
                         </div>
                     </td>
