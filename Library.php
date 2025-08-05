@@ -180,15 +180,30 @@
             alert('Edit book ' + id);
         }
 
-        function deleteBook(id) {
-            if (confirm('Delete book ' + id + '?')) {
-                // Find and remove the row
-                var rows = document.getElementById('bookTable').getElementsByTagName('tr');
-                for (var i = 0; i < rows.length; i++) {
-                    if (rows[i].getElementsByTagName('td')[0].textContent === id) {
-                        rows[i].remove();
-                        break;
+        // Updated delete function that actually deletes from database
+        async function deleteBook(id) {
+            if (confirm('Are you sure you want to permanently delete book ' + id + '?')) {
+                try {
+                    const response = await fetch('http://localhost/Library_Management_System/delete_book.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: id })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        // Success - reload the books to refresh the display
+                        alert('Book deleted successfully!');
+                        loadBooks(); // This will refresh the table and stats
+                    } else {
+                        alert('Error deleting book: ' + result.error);
                     }
+                } catch (error) {
+                    console.error('Error deleting book:', error);
+                    alert('Failed to delete book. Please try again.');
                 }
             }
         }
