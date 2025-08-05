@@ -18,8 +18,8 @@
         <div class="filter">
             <select id="filter">
                 <option value="">All Users</option>
-                <option value="available">Eligable</option>
-                <option value="checked-out">Non-Eligable</option>
+                <option value="available">Eligible</option>
+                <option value="checked-out">Non-Eligible</option>
             </select>
         </div>
         <button class="add-btn" onclick="window.location.href='register_user.php'">Register User</button>
@@ -33,11 +33,11 @@
         </div>
         <div class="stat available">
             <div class="stat-number">0</div>
-            <div class="stat-label">Eligable</div>
+            <div class="stat-label">Eligible</div>
         </div>
         <div class="stat checked-out">
             <div class="stat-number">0</div>
-            <div class="stat-label">Non-Eligable</div>
+            <div class="stat-label">Non-Eligible</div>
         </div>
         <!--
         <div class="stat overdue">
@@ -75,16 +75,16 @@
     </div>
 
     <script>
-        let booksData = []; // Will hold books from database
+        let usersData = [];
 
-        // Load books from backend when page loads
+        // Load users from backend when page loads
         async function loadUsers() {
             try {
                 const response = await fetch('http://localhost/Library_Management_System/get_users.php');
                 if (!response.ok) {
                     throw new Error('Failed to fetch users');
                 }
-                booksData = await response.json();
+                usersData = await response.json();
                 displayUsers();
                 updateStats();
             } catch (error) {
@@ -97,18 +97,18 @@
             const tbody = document.getElementById('userTable');
             tbody.innerHTML = '';
             
-            userData.forEach(user => {
+            usersData.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${user.id}</td>
+                    <td>${user.username}</td>
                     <td>${user.first_name}</td>
                     <td>${user.last_name}</td>
                     <td><span class="status ${user.status}">${capitalizeStatus(user.status)}</span></td>
-                    <td>${book.location}</td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="editBook('${user.id}')">Edit</button>
-                            <button class="btn delete" onclick="deleteBook('${user.id}')">Delete</button>
+                            <button class="btn edit" onclick="editUser('${user.id}')">Edit</button>
+                            <button class="btn delete" onclick="deleteUser('${user.id}')">Delete</button>
                         </div>
                     </td>
                 `;
@@ -123,22 +123,19 @@
         }
 
         function updateStats() {
-            const total = booksData.length;
-            const available = booksData.filter(book => book.status === 'available').length;
-            const checkedOut = booksData.filter(book => book.status === 'checked-out').length;
-            const overdue = booksData.filter(book => book.status === 'overdue').length;
+            const total = usersData.length;
+            const available = usersData.filter(user => user.status === 'available').length;
+            const checkedOut = usersData.filter(user => user.status === 'checked-out').length;
             
-            // Update the stat numbers in your HTML
             document.querySelector('.stat.total .stat-number').textContent = total;
             document.querySelector('.stat.available .stat-number').textContent = available;
             document.querySelector('.stat.checked-out .stat-number').textContent = checkedOut;
-            document.querySelector('.stat.overdue .stat-number').textContent = overdue;
         }
 
         function search() {
             var input = document.getElementById('search');
             var filter = input.value.toLowerCase();
-            var table = document.getElementById('bookTable');
+            var table = document.getElementById('userTable');
             var rows = table.getElementsByTagName('tr');
 
             for (var i = 0; i < rows.length; i++) {
@@ -157,7 +154,7 @@
         function filterStatus() {
             var select = document.getElementById('filter');
             var filter = select.value;
-            var table = document.getElementById('bookTable');
+            var table = document.getElementById('userTable');
             var rows = table.getElementsByTagName('tr');
 
             for (var i = 0; i < rows.length; i++) {
@@ -170,11 +167,11 @@
             }
         }
 
-        function editBook(id) {
+        function editUser(id) {
             alert('Edit user ' + id);
         }
 
-        function deleteBook(id) {
+        function deleteUser(id) {
             if (confirm('Delete user ' + id + '?')) {
                 // Find and remove the row
                 var rows = document.getElementById('userTable').getElementsByTagName('tr');
@@ -188,7 +185,7 @@
         }
 
         // Load books when page loads
-        window.addEventListener('load', loadusers);
+        window.addEventListener('load', loadUsers);
 
         // Add event listeners
         document.getElementById('search').addEventListener('input', search);

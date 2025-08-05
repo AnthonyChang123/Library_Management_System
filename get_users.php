@@ -15,22 +15,24 @@ if ($connection->connect_error) {
     exit;
 }
 
-$query = "SELECT * FROM UserAccount ORDER BY id";
+$query = "SELECT * FROM UserAccount ORDER BY User_ID";
 $result = $connection->query($query);
 
 if ($result) {
     $users = [];
     while ($row = $result->fetch_assoc()) {
-        $users[] = $row ['User_ID'],
+        $users[] = [
+        'id' => $row['User_ID'],
         'username' => $row['Renter_Username'],
         'first_name' => $row['Renter_FirstName'],
         'last_name' => $row['Renter_LastName'],
         'status' => $row['Renter_Status'] ? 'available' : 'checked-out',
+        ];
     }
-    echo json_encode($books);
+    echo json_encode($users);
 } else {
     http_response_code(500);
-    echo json_encode(['error' => 'Failed to fetch books']);
+    echo json_encode(['error' => 'Failed to fetch users']);
 }
 
 $connection->close();
