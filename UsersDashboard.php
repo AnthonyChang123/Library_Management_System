@@ -47,22 +47,21 @@
         -->
     </div>
 
-    <div class="inventory">
-        <h2>Book Inventory</h2>
+    <div class="Users">
+        <h2>User List</h2>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>ISBN</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Status</th>
-                    <th>Location</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="bookTable">
-                <!-- Books will be loaded from database -->
+            <tbody id="userTable">
+                <!-- Users will be loaded from database -->
             </tbody>
         </table>
 
@@ -79,38 +78,37 @@
         let booksData = []; // Will hold books from database
 
         // Load books from backend when page loads
-        async function loadBooks() {
+        async function loadUsers() {
             try {
-                const response = await fetch('http://localhost/Library_Management_System/get_books.php');
+                const response = await fetch('http://localhost/Library_Management_System/get_users.php');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch books');
+                    throw new Error('Failed to fetch users');
                 }
                 booksData = await response.json();
-                displayBooks();
+                displayUsers();
                 updateStats();
             } catch (error) {
-                console.error('Error loading books:', error);
-                alert('Failed to load books from database');
+                console.error('Error loading Users:', error);
+                alert('Failed to load Users from database');
             }
         }
 
-        function displayBooks() {
-            const tbody = document.getElementById('bookTable');
+        function displayUsers() {
+            const tbody = document.getElementById('userTable');
             tbody.innerHTML = '';
             
-            booksData.forEach(book => {
+            userData.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${book.id}</td>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.isbn}</td>
-                    <td><span class="status ${book.status}">${capitalizeStatus(book.status)}</span></td>
+                    <td>${user.id}</td>
+                    <td>${user.first_name}</td>
+                    <td>${user.last_name}</td>
+                    <td><span class="status ${user.status}">${capitalizeStatus(user.status)}</span></td>
                     <td>${book.location}</td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="editBook('${book.id}')">Edit</button>
-                            <button class="btn delete" onclick="deleteBook('${book.id}')">Delete</button>
+                            <button class="btn edit" onclick="editBook('${user.id}')">Edit</button>
+                            <button class="btn delete" onclick="deleteBook('${user.id}')">Delete</button>
                         </div>
                     </td>
                 `;
@@ -172,18 +170,14 @@
             }
         }
 
-        function addBook() {
-            alert('Add book form would open here');
-        }
-
         function editBook(id) {
-            alert('Edit book ' + id);
+            alert('Edit user ' + id);
         }
 
         function deleteBook(id) {
-            if (confirm('Delete book ' + id + '?')) {
+            if (confirm('Delete user ' + id + '?')) {
                 // Find and remove the row
-                var rows = document.getElementById('bookTable').getElementsByTagName('tr');
+                var rows = document.getElementById('userTable').getElementsByTagName('tr');
                 for (var i = 0; i < rows.length; i++) {
                     if (rows[i].getElementsByTagName('td')[0].textContent === id) {
                         rows[i].remove();
@@ -194,7 +188,7 @@
         }
 
         // Load books when page loads
-        window.addEventListener('load', loadBooks);
+        window.addEventListener('load', loadusers);
 
         // Add event listeners
         document.getElementById('search').addEventListener('input', search);
