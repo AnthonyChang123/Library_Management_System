@@ -28,6 +28,7 @@ Create table UserAccount (
     Renter_FirstName varchar(30),
     Renter_LastName varchar (30),
     Renter_Address varchar (50),
+    Renter_Email varchar (50),
     Renter_Status boolean
 );
 
@@ -47,4 +48,4 @@ INSERT INTO Books (id, title, author, isbn, status, location) VALUES
 ('BK004', 'Pride and Prejudice', 'Jane Austen', '978-0141439518', 'overdue', 'A-15-1'),
 ('BK005', 'The Great Gatsby', 'F. Scott Fitzgerald', '978-0743273565', 'available', 'D-03-9');
 
-Insert into UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Status) Values ('John123', 'John', 'Smith','6593 Zillow W Ave, MN 5567', true);
+Insert into UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Email, Renter_Status) Values ('John123', 'John', 'Smith','6593 Zillow W Ave, MN 5567','John@gmail.com', true);

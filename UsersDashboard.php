@@ -107,7 +107,7 @@
                     <td><span class="status ${user.status}">${capitalizeStatus(user.status)}</span></td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="editUser('${user.id}')">Edit</button>
+                            <button class="btn edit" onclick="window.location.href='User_Info.php?id=${user.id}'">Edit</button>
                             <button class="btn delete" onclick="deleteUser('${user.id}')">Delete</button>
                         </div>
                     </td>
@@ -134,7 +134,7 @@
 
         function search() {
             var input = document.getElementById('search');
-            var filter = input.value.toLowerCase();
+            var filter = input.value.trim().toLowerCase();
             var table = document.getElementById('userTable');
             var rows = table.getElementsByTagName('tr');
 

@@ -21,11 +21,12 @@ if ($connection->connect_error) {
     $renter_firstname = $_POST['first_name'];
     $renter_lastname = $_POST['last_name'];
     $renter_address = $_POST['address'];
+    $renter_email = $_POST['email'];
     $renter_status = $_POST['status'];
 
     // Prepare and bind
-    $stmt = $connection->prepare("INSERT INTO UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Status) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $renter_username, $renter_firstname, $renter_lastname, $renter_address, $renter_status);
+    $stmt = $connection->prepare("INSERT INTO UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address,Renter_Email, Renter_Status) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssi", $renter_username, $renter_firstname, $renter_lastname, $renter_address, $renter_email, $renter_status);
     if ($stmt->execute()) {
         echo "<p style='color: green;'>User added successfully!</p>";
     } else {
@@ -93,6 +94,9 @@ if ($connection->connect_error) {
 
     <label>Address:</label>
     <input type="text" name="address" required>
+
+    <label>Email:</label>
+    <input type="text" name="email" required>
 
     <label>Status:</label>
     <select name="status">
