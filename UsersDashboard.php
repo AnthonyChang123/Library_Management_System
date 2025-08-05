@@ -117,10 +117,11 @@
         }
 
         function capitalizeStatus(status) {
-            return status.replace('-', ' ').split(' ').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
+            if (status === 'available') return 'Eligible';
+            if (status === 'checked-out') return 'Non-Eligible';
+            return status;
         }
+
 
         function updateStats() {
             const total = usersData.length;
