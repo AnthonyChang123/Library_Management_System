@@ -47,7 +47,7 @@
         -->
     </div>
 
-    <div class="Users">
+    <div class="Inventory">
         <h2>User List</h2>
         <table>
             <thead>
