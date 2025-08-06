@@ -47,7 +47,7 @@
         -->
     </div>
 
-    <div class="Users">
+    <div class="Inventory">
         <h2>User List</h2>
         <table>
             <thead>
@@ -107,7 +107,7 @@
                     <td><span class="status ${user.status}">${capitalizeStatus(user.status)}</span></td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="window.location.href='User_Info.php?id=${user.id}'">Edit</button>
+                            <button class="btn edit" onclick="window.location.href='User_Info.php?id=${user.id}'">View</button>
                             <button class="btn delete" onclick="deleteUser('${user.id}')">Delete</button>
                         </div>
                     </td>
@@ -117,10 +117,11 @@
         }
 
         function capitalizeStatus(status) {
-            return status.replace('-', ' ').split(' ').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
+            if (status === 'available') return 'Eligible';
+            if (status === 'checked-out') return 'Non-Eligible';
+            return status;
         }
+
 
         function updateStats() {
             const total = usersData.length;
@@ -171,15 +172,29 @@
             alert('Edit user ' + id);
         }
 
-        function deleteUser(id) {
-            if (confirm('Delete user ' + id + '?')) {
-                // Find and remove the row
-                var rows = document.getElementById('userTable').getElementsByTagName('tr');
-                for (var i = 0; i < rows.length; i++) {
-                    if (rows[i].getElementsByTagName('td')[0].textContent === id) {
-                        rows[i].remove();
-                        break;
+        async function deleteUser(id) {
+            if (confirm('Are you sure you want to permanently delete user ' + id + '?')) {
+                try {
+                    const response = await fetch('http://localhost/Library_Management_System/delete_users.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: id })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        // Success - reload the books to refresh the display
+                        alert('user deleted successfully!');
+                        loadUsers(); // This will refresh the table and stats
+                    } else {
+                        alert('Error deleting user: ' + result.error);
                     }
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    alert('Failed to delete user. Please try again.');
                 }
             }
         }

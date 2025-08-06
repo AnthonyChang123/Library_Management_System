@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-// Connect to database
+
 $host = "localhost";
 $database = "LibraryDatabase";
 $username = "root";
@@ -63,6 +63,23 @@ $connection->close();
         .info-label {
             font-weight: bold;
         }
+
+        .user-sections {
+            margin-top: 30px;
+        }
+
+        .section {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a5568;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            color: #4a5568;
+        }
+
     </style>
 </head>
 <body>
@@ -79,6 +96,28 @@ $connection->close();
         <?= $user['Renter_Status'] ? 'Eligible' : 'Non-Eligible' ?>
     </div>
 </div>
+
+
+<!-- work in progress -->
+<div class="user-sections">
+
+    <div class="section">
+        <h3>Current Rentals</h3>
+        <p>No current rentals to display.</p>
+    </div>
+
+    <div class="section">
+        <h3>Rental History</h3>
+        <p>No rental history available.</p>
+    </div>
+
+    <div class="section">
+        <h3>Outstanding Fines</h3>
+        <p>No fines found.</p> 
+    </div>
+
+</div>
+
 
 </body>
 </html>
