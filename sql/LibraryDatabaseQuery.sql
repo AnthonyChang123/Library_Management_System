@@ -48,4 +48,14 @@ INSERT INTO Books (id, title, author, isbn, status, location) VALUES
 ('BK004', 'Pride and Prejudice', 'Jane Austen', '978-0141439518', 'overdue', 'A-15-1'),
 ('BK005', 'The Great Gatsby', 'F. Scott Fitzgerald', '978-0743273565', 'available', 'D-03-9');
 
-Insert into UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Email, Renter_Status) Values ('John123', 'John', 'Smith','6593 Zillow W Ave, MN 5567','John@gmail.com', true);
+INSERT INTO UserAccount (Renter_Username, Renter_FirstName, Renter_LastName, Renter_Address, Renter_Status) VALUES
+('jsmith', 'John', 'Smith', '123 Main St, City, State', true),
+('mjohnson', 'Mary', 'Johnson', '456 Oak Ave, City, State', true),
+('bwilson', 'Bob', 'Wilson', '789 Pine Rd, City, State', true),
+('lbrown', 'Lisa', 'Brown', '321 Elm St, City, State', false),
+('tgarcia', 'Tom', 'Garcia', '654 Maple Dr, City, State', true);
+
+
+INSERT INTO Rental (User_ID, Book_ID, Checked_Out_Date, Due_Date, Status) VALUES
+(1, 'BK002', '2025-01-20', '2025-02-03', 'active'),
+(2, 'BK004', '2025-01-10', '2025-01-24', 'overdue');
