@@ -22,11 +22,12 @@ if ($result) {
     $users = [];
     while ($row = $result->fetch_assoc()) {
         $users[] = [
-        'id' => $row['User_ID'],
-        'username' => $row['Renter_Username'],
-        'first_name' => $row['Renter_FirstName'],
-        'last_name' => $row['Renter_LastName'],
-        'status' => $row['Renter_Status'] ? 'available' : 'checked-out',
+            'User_ID' => $row['User_ID'],
+            'Renter_Username' => $row['Renter_Username'],
+            'Renter_FirstName' => $row['Renter_FirstName'],
+            'Renter_LastName' => $row['Renter_LastName'],
+            'Renter_Address' => $row['Renter_Address'],
+            'Renter_Status' => $row['Renter_Status'] ? true : false
         ];
     }
     echo json_encode($users);
