@@ -3,18 +3,18 @@
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Database connection
-$host = "localhost";
-$database = "LibraryDatabase";
-$username = "root";
-$password = "";
+    $host = "localhost";
+    $database = "LibraryDatabase";
+    $username = "root";
+    $password = "";
 
-// make connection
-$connection = new mysqli($host, $username, $password, $database);
+    // make connection
+    $connection = new mysqli($host, $username, $password, $database);
 
-// check connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
+    // check connection
+    if ($connection->connect_error) {
+        die("Connection failed: " . $connection->connect_error);
+    }
 
     // Get form values
     $id = $_POST['id'];
@@ -24,17 +24,30 @@ if ($connection->connect_error) {
     $status = $_POST['status'];
     $location = $_POST['location'];
 
-    // Prepare and bind
-    $stmt = $connection->prepare("INSERT INTO Books (id, title, author, isbn, status, location) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $id, $title, $author, $isbn, $status, $location);
+    // Check if book with this ID already exists
+    $checkStmt = $connection->prepare("SELECT id FROM Books WHERE id = ?");
+    $checkStmt->bind_param("s", $id);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
 
-    if ($stmt->execute()) {
-        echo "<p style='color: green;'>Book added successfully!</p>";
+    if ($checkResult->num_rows > 0) {
+        // Book already exists - show JavaScript alert
+        echo "<script>alert('Error: A book with ID \"$id\" already exists!');</script>";
+        echo "<p style='color: red;'>Error: Book ID already exists!</p>";
     } else {
-        echo "<p style='color: red;'>Error: " . $stmt->error . "</p>";
+        // No duplicate found, proceed with insertion
+        $stmt = $connection->prepare("INSERT INTO Books (id, title, author, isbn, status, location) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $id, $title, $author, $isbn, $status, $location);
+
+        if ($stmt->execute()) {
+            echo "<p style='color: green;'>Book added successfully!</p>";
+        } else {
+            echo "<p style='color: red;'>Error: " . $stmt->error . "</p>";
+        }
+        $stmt->close();
     }
 
-    $stmt->close();
+    $checkStmt->close();
     $connection->close();
 }
 ?>
