@@ -124,20 +124,95 @@ $connection->close();
             color: #4a5568;
         }
 
+        /* Status styles matching inventory page */
+        .status {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .status.eligible {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.non-eligible {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.overdue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.returned {
+            background: #e7f3ff;
+            color: #004085;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="user-info">
     <h2>User Details</h2>
-    <div class="info-row"><span class="info-label">User ID:</span> <?= $user['User_ID'] ?></div>
-    <div class="info-row"><span class="info-label">Username:</span> <?= $user['Renter_Username'] ?></div>
-    <div class="info-row"><span class="info-label">First Name:</span> <?= $user['Renter_FirstName'] ?></div>
-    <div class="info-row"><span class="info-label">Last Name:</span> <?= $user['Renter_LastName'] ?></div>
-    <div class="info-row"><span class="info-label">Address:</span> <?= $user['Renter_Address'] ?></div>
-    <div class="info-row"><span class="info-label">Email:</span> <?= $user['Renter_Email'] ?></div>
-    <div class="info-row"><span class="info-label">Status:</span> 
-        <?= $user['Renter_Status'] ? 'Eligible' : 'Non-Eligible' ?>
+    <div class="info-row">
+        <span class="info-label">User ID:</span> <?= $user['User_ID'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Username:</span> <?= $user['Renter_Username'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">First Name:</span> <?= $user['Renter_FirstName'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Last Name:</span> <?= $user['Renter_LastName'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Address:</span> <?= $user['Renter_Address'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Email:</span> <?= $user['Renter_Email'] ?>
+    </div>
+    <div class="info-row">
+        <span class="info-label">Status:</span> 
+        <?php if ($user['Renter_Status']): ?>
+            <span class="status eligible">Eligible</span>
+        <?php else: ?>
+            <span class="status non-eligible">Non-Eligible</span>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -167,7 +242,11 @@ $connection->close();
                         <td><?= htmlspecialchars($r['author']) ?></td>
                         <td><?= htmlspecialchars(date('m/d/Y', strtotime($r['Checked_Out_Date']))) ?></td>
                         <td><?= htmlspecialchars(date('m/d/Y', strtotime($r['Due_Date']))) ?></td>
-                        <td><?= htmlspecialchars(ucfirst($r['Status'])) ?></td>
+                        <td>
+                            <span class="status <?= strtolower($r['Status']) ?>">
+                                <?= htmlspecialchars(ucfirst($r['Status'])) ?>
+                            </span>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

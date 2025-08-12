@@ -8,6 +8,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Users</title>
+    <style>
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.eligible {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.non-eligible {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
 
