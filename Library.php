@@ -1,4 +1,3 @@
-
 <?php
     include 'header.php';
 ?>
@@ -109,7 +108,7 @@
                     <td>${book.location}</td>
                     <td>
                         <div class="actions">
-                            <button class="btn edit" onclick="editBook('${book.id}')">View</button>
+                            <button class="btn edit" onclick="window.location.href='Book_Info.php?id=${book.id}'">View</button>
                             <button class="btn delete" onclick="deleteBook('${book.id}')">Delete</button>
                         </div>
                     </td>
@@ -170,14 +169,6 @@
                     rows[i].style.display = 'none';
                 }
             }
-        }
-
-        function addBook() {
-            alert('Add book form would open here');
-        }
-
-        function editBook(id) {
-            alert('Edit book ' + id);
         }
 
         // Updated delete function that actually deletes from database
