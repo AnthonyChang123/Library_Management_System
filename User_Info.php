@@ -34,6 +34,33 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 $stmt->close();
+
+
+$sqlgetrental = "
+Select
+r.Rental_ID,
+b.title,
+b.author,
+r.Checked_Out_Date,
+r.Due_Date,
+r.Status
+From Rental r
+Join Books b on r.Book_ID = b.id
+Where r.User_ID = ?
+Order by r.Checked_Out_Date Desc";
+
+
+$rstmt = $connection->prepare($sqlgetrental);
+$rstmt->bind_param("i", $user_id);
+$rstmt->execute();
+$rentalsRes = $rstmt->get_result();
+
+$rentals = [];
+while ($row = $rentalsRes->fetch_assoc()) {
+    $rentals[] = $row;
+}
+$rstmt->close();
+
 $connection->close();
 ?>
 
@@ -102,13 +129,40 @@ $connection->close();
 <div class="user-sections">
 
     <div class="section">
-        <h3>Current Rentals</h3>
-        <p>No current rentals to display.</p>
+        <h3>Rentals</h3>
+        <?php if (!empty($rentals)): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rental ID</th>
+                        <th>Book</th>
+                        <th>Author</th>
+                        <th>Checked Out</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($rentals as $r): ?>
+                    <tr>
+                        <td><?= (int)$r['Rental_ID'] ?></td>
+                        <td><?= htmlspecialchars($r['title']) ?></td>
+                        <td><?= htmlspecialchars($r['author']) ?></td>
+                        <td><?= htmlspecialchars(date('m/d/Y', strtotime($r['Checked_Out_Date']))) ?></td>
+                        <td><?= htmlspecialchars(date('m/d/Y', strtotime($r['Due_Date']))) ?></td>
+                        <td><?= htmlspecialchars(ucfirst($r['Status'])) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No rentals found for this user.</p>
+        <?php endif; ?>
     </div>
 
-    <div class="section">
+        <div class="section">
         <h3>Rental History</h3>
-        <p>No rental history available.</p>
+        <p>No fines found.</p> 
     </div>
 
     <div class="section">
