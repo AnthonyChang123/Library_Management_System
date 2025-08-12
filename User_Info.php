@@ -61,6 +61,23 @@ while ($row = $rentalsRes->fetch_assoc()) {
 }
 $rstmt->close();
 
+
+// Fines = $10 per overdue rental for THIS user (status-based)
+$sqlFines = "SELECT COUNT(*) AS overdue_count
+             FROM Rental
+             WHERE Status = 'overdue' AND User_ID = ?";
+
+$fstmt = $connection->prepare($sqlFines);
+$fstmt->bind_param("i", $user_id);
+$fstmt->execute();
+$fstmt->bind_result($overdueCount);
+$fstmt->fetch();
+$fstmt->close();
+
+$fineTotal = ((int)$overdueCount) * 10;
+
+
+
 $connection->close();
 ?>
 
@@ -165,10 +182,16 @@ $connection->close();
         <p>No fines found.</p> 
     </div>
 
-    <div class="section">
-        <h3>Outstanding Fines</h3>
-        <p>No fines found.</p> 
-    </div>
+<div class="section">
+    <h3>Outstanding Fines</h3>
+    <?php if ($fineTotal > 0): ?>
+        <p><strong>Total Due:</strong> $<?= number_format($fineTotal, 2) ?></p>
+        <small>$10 per overdue book.</small>
+    <?php else: ?>
+        <p>No fines found.</p>
+    <?php endif; ?>
+</div>
+
 
 </div>
 
