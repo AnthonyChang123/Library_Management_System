@@ -31,6 +31,7 @@ $query = "SELECT
           FROM Rental r
           LEFT JOIN UserAccount u ON r.User_ID = u.User_ID
           LEFT JOIN Books b ON r.Book_ID = b.id
+          Where r.Status in ('active','overdue')
           ORDER BY r.Checked_Out_Date DESC";
 
 $result = $connection->query($query);
