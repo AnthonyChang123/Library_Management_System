@@ -177,11 +177,6 @@ $connection->close();
         <?php endif; ?>
     </div>
 
-        <div class="section">
-        <h3>Rental History</h3>
-        <p>No fines found.</p> 
-    </div>
-
 <div class="section">
     <h3>Outstanding Fines</h3>
     <?php if ($fineTotal > 0): ?>
